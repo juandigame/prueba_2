@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Formulario Rabano -->
+    <record id="view_rabano_form" model="ir.ui.view">
+        <field name="name">agricultura.rabano.form</field>
+        <field name="model">agricultura.rabano</field>
+        <field name="arch" type="xml">
+            <form string="Variedad de Rábano">
+                <header>
+                    <button name="action_abrir_recomendacion" 
+                            string="Generar Recomendación" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button name="%(action_rabano)d" string="Volver" type="action" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="imagen" widget="image" class="oe_avatar"/>
+                            <field name="clima_optimo"/>
+                            <field name="suelos_adecuados"/>
+                        </group>
+                        <group>
+                            <field name="dias_cosecha"/>
+                            <field name="requerimiento_agua"/>
+                            <field name="ph_minimo"/>
+                            <field name="ph_maximo"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="descripcion" placeholder="Describa las características de esta variedad..."/>
+                        </page>
+                        <page string="Configuración Técnica">
+                            <group>
+                                <field name="profundidad_siembra"/>
+                                <field name="espacio_plantas"/>
+                            </group>
+                        </page>
+                        <page string="Resistencias">
+                            <field name="resistencia_enfermedades"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Lista Rabano -->
+    <record id="view_rabano_list" model="ir.ui.view">
+        <field name="name">agricultura.rabano.list</field>
+        <field name="model">agricultura.rabano</field>
+        <field name="arch" type="xml">
+            <list string="Variedades de Rábano">
+                <field name="name"/>
+                <field name="clima_optimo"/>
+                <field name="suelos_adecuados"/>
+                <field name="dias_cosecha"/>
+                <field name="requerimiento_agua"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista Búsqueda Rabano -->
+    <record id="view_rabano_search" model="ir.ui.view">
+        <field name="name">agricultura.rabano.search</field>
+        <field name="model">agricultura.rabano</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="Suelo Franco" name="filter_franco" domain="[('suelos_adecuados','=','franco')]"/>
+                <filter string="Clima Templado" name="filter_templado" domain="[('clima_optimo','=','templado')]"/>
+                <separator/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Clima Óptimo" name="group_by_clima" context="{'group_by':'clima_optimo'}"/>
+                    <filter string="Tipo de Suelo" name="group_by_suelo" context="{'group_by':'suelos_adecuados'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción Rabano -->
+    <record id="action_rabano" model="ir.actions.act_window">
+        <field name="name">Variedades de Rábano</field>
+        <field name="res_model">agricultura.rabano</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_rabano_search"/>
+    </record>
+
+    <!-- Menús -->
+    <menuitem id="menu_agricultura_root" name="Agricultura" sequence="10"/>
+    <menuitem id="menu_rabano" name="Rábanos" parent="menu_agricultura_root" sequence="20"/>
+    <menuitem id="menu_rabano_config" name="Variedades" parent="menu_rabano" sequence="30"/>
+    <menuitem id="menu_rabano_action" name="Catálogo" parent="menu_rabano_config" action="action_rabano" sequence="40"/>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Formulario Recomendacion -->
+    <record id="view_recomendacion_form" model="ir.ui.view">
+        <field name="name">agricultura.recomendacion.form</field>
+        <field name="model">agricultura.recomendacion</field>
+        <field name="arch" type="xml">
+            <form string="Recomendación de Cultivo">
+                <sheet>
+                    <group>
+                        <field name="variedad_rabano_id" widget="many2one"/>
+                        <field name="tipo_suelo"/>
+                        <field name="clima"/>
+                        <field name="tamano_cultivo"/>
+                        <field name="ph_suelo"/>
+                    </group>
+                    
+                    <group string="Resultados">
+                        <field name="porcentaje_exito" widget="progressbar" options="{
+                            'edit': False,
+                            'max_value': 100,
+                            'colors': {'success': 70, 'warning': 40, 'danger': 0}
+                        }"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Recomendaciones">
+                            <field name="recomendaciones" widget="html" nolabel="1"/>
+                        </page>
+                        <page string="Alertas">
+                            <field name="alertas" widget="html" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Lista Recomendacion -->
+    <record id="view_recomendacion_list" model="ir.ui.view">
+        <field name="name">agricultura.recomendacion.list</field>
+        <field name="model">agricultura.recomendacion</field>
+        <field name="arch" type="xml">
+            <list string="Historial de Recomendaciones">
+                <field name="create_date" string="Fecha"/>
+                <field name="variedad_rabano_id"/>
+                <field name="tipo_suelo"/>
+                <field name="clima"/>
+                <field name="porcentaje_exito" widget="progressbar" options="{
+                    'max_value': 100,
+                    'editable': False
+                }"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción Recomendacion -->
+    <record id="action_recomendacion" model="ir.actions.act_window">
+    <field name="name">Asistente de Recomendación</field>
+    <field name="res_model">agricultura.recomendacion</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="context">{}</field> <!-- Esta línea evita el error -->
+</record>
+
+    <!-- Menús -->
+    <menuitem id="menu_recomendacion" name="Asesor" parent="menu_agricultura_root" sequence="50"/>
+    <menuitem id="menu_recomendacion_nueva" name="Nueva Recomendación" parent="menu_recomendacion" sequence="60"/>
+    <menuitem id="menu_recomendacion_action" name="Iniciar Asistente" parent="menu_recomendacion_nueva" action="action_recomendacion" sequence="70"/>
+</odoo>
